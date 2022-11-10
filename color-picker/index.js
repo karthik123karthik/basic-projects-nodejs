@@ -12,10 +12,8 @@ app.get('/:color' , (req, res, next) => {
     res.send(obj);
 });
 
-app.use(express.static('files'));
-
 app.get('/',(req, res, next) => {
-    res.sendFile(path.join(__dirname , '/files' , '/index.html'));
+    res.sendFile(path.join(__dirname , '/index.html'));
 });
 
 app.use((req, res, next) => {
