@@ -6,10 +6,13 @@ const path = require('path')
 
 app.use(bodyparser.urlencoded({extended:false}));
 
+app.use(express.static(path.join(__dirname, 'files')));
+
 app.get('/:color' , (req, res, next) => {
+    console.log(req.query);
     const {color} = req.params;
     const obj = data.find((ele)=> ele.color === color);
-    res.send(obj);
+    res.json(obj);
 });
 
 app.get('/',(req, res, next) => {
