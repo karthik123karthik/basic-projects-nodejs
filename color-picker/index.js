@@ -34,6 +34,16 @@ app.post('/:color', (req, res) => {
     res.redirect('/all-colors')
 });
 
+// updating a color
+app.put('/:color', (req, res) => {
+    const {color} = req.params;
+    const newbody = req.body;
+    data.forEach((ele) => {if(ele.color === color){
+            ele.value = newbody;
+    }})
+    res.send(`updating a ${color} is finished`);
+})
+
 /* deleting a color */
 app.delete('/:color', (req, res) => {
     const {color} = req.params;
@@ -42,14 +52,6 @@ app.delete('/:color', (req, res) => {
     res.send(filterdata) 
 })
 
-
-/* updating a color*/
-app.put('/:color', (req, res) => {
-    const {color} = req.params;
-    const id = req.body;
-    const newdata = data.map((ele)=> ele.color === color ? ele.value = id:ele);
-    res.send(newdata)
-})
 
 
 
