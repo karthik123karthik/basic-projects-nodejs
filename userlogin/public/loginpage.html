@@ -7,12 +7,32 @@
     <title>login page</title>
 </head>
 <body>
-    <form>
-        <input type="text" placeholder="Enter Your Name" name= "userName" />
-        <input type="text" placeholder="Enter Your Password" name= "password" />
+    <form id="login-form">
+        <input type="text" placeholder="Enter Your Name" id = "userName" />
+        <input type="text" placeholder="Enter Your Password" id = "password" />
         <button type="submit">submit</button>
     </form>
-    <script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script type="module">
+        const form = document.getElementById('login-form');
+
+        form.addEventListener('submit',submitData);
+
+        async function submitData(event){
+              event.preventDefault();
+              const userName = document.getElementById('userName').value;
+              const password = document.getElementById('password').value;
+              const response = await axios.post('/api/register',{data:JSON.stringify({
+                    name:userName,
+                    password:password
+                })}
+                 ,{headers:{
+                    'Content-Type':'application/json'
+                }
+            });
+
+            console.log(response);
+        }
     </script>
 </body>
 </html>
