@@ -3,6 +3,8 @@ const app = express()
 const path = require("path");
 const bodyparser = require('body-parser');
 const mongoose = require("mongoose");
+const User = require('./models/User');
+const bcrypt = require("bcryptjs")
 
 
 try{
@@ -14,12 +16,25 @@ catch(err){
 
 
 async function main(){
- await mongoose.connect("mongodb+srv://karthikgk:karthik@cluster0.nxuwhxd.mongodb.net/?retryWrites=true&w=majority")
+ await mongoose.connect("mongodb+srv://karthikgk:karthik@cluster0.nxuwhxd.mongodb.net/Userlogin?retryWrites=true&w=majority")
 }
 app.use(bodyparser.json());
 app.use('/', express.static(path.join(__dirname,'public')));
 
-app.post('/api/register',(req, res) => {
+app.post('/api/register',async (req, res) => {
+      const {name, password} = JSON.parse(req.body.data);
+      const hashedPassword = await bcrypt.hash(password,10);
+       try{
+        const user = new User({
+            name:name,
+            password:hashedPassword
+        });
+        const res = await user.save();
+        console.log(res);
+       }
+       catch(err){
+        console.log(err.message);
+       }
       res.json({status:'OK'});
 });
 
