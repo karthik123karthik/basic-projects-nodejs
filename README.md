@@ -6,4 +6,5 @@
 
 ### simple USER LOGIN PAGE:
 
- 
+### JWT - json web token it is used to authorize a user after login.
+* JWT doesnot store any user details on the server.

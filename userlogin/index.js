@@ -29,8 +29,8 @@ app.post('/api/register',async (req, res) => {
             name:name,
             password:hashedPassword
         });
-        const res = await user.save();
-        console.log(res);
+        
+        console.log(user);
        }
        catch(err){
         console.log(err.message);
