@@ -7,23 +7,23 @@ const User = require('./models/User');
 const bcrypt = require("bcryptjs")
 
 
-try{
+/*try{
     main();
 }
 catch(err){
     console.log(err.message);
 }
 
-
 async function main(){
  await mongoose.connect("mongodb+srv://karthikgk:karthik@cluster0.nxuwhxd.mongodb.net/Userlogin?retryWrites=true&w=majority")
-}
+}*/
 app.use(bodyparser.json());
 app.use('/', express.static(path.join(__dirname,'public')));
 
 app.post('/api/register',async (req, res) => {
-      const {name, password} = JSON.parse(req.body.data);
-      const hashedPassword = await bcrypt.hash(password,10);
+      const {name, password} = req.body;
+      console.log(name);
+      /*const hashedPassword = await bcrypt.hash(password,10);
        try{
         const user = new User({
             name:name,
@@ -34,7 +34,7 @@ app.post('/api/register',async (req, res) => {
        }
        catch(err){
         console.log(err.message);
-       }
+       }*/
       res.json({status:'OK'});
 });
 
