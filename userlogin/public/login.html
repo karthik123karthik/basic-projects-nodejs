@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>login page</title>
+    <title>login</title>
 </head>
 <body>
     <form id="login-form">
@@ -15,14 +15,13 @@
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script type="module">
         const form = document.getElementById('login-form');
-
         form.addEventListener('submit',submitData);
 
         async function submitData(event){
               event.preventDefault();
               const userName = document.getElementById('userName').value;
               const password = document.getElementById('password').value;
-              const response = await axios.post('/api/register',JSON.stringify({
+              const response = await axios.post('/api/login',JSON.stringify({
                     name:userName,
                     password:password
                 })
@@ -30,6 +29,16 @@
                     'Content-Type':'application/json'
                 }
             });
+
+            console.log(response.data);
+
+            if(response.data.status === 'OK'){
+                    alert("success");
+                    console.log("got the token as:",response.data.data)
+            }
+            else{
+                alert(response.error);
+            }
 
         }
     </script>

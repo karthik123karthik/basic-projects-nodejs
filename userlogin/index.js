@@ -12,29 +12,33 @@ const bcrypt = require("bcryptjs")
 }
 catch(err){
     console.log(err.message);
-}
-
+}*/
+/*
 async function main(){
  await mongoose.connect("mongodb+srv://karthikgk:karthik@cluster0.nxuwhxd.mongodb.net/Userlogin?retryWrites=true&w=majority")
 }*/
+
 app.use(bodyparser.json());
 app.use('/', express.static(path.join(__dirname,'public')));
 
+app.post('/api/login',(req,res) => {
+    res.json({status:'OK', data:"abcdefgh"});
+})
+
 app.post('/api/register',async (req, res) => {
       const {name, password} = req.body;
-      console.log(name);
-      /*const hashedPassword = await bcrypt.hash(password,10);
+      const hashedPassword = await bcrypt.hash(password,10);
        try{
         const user = new User({
             name:name,
             password:hashedPassword
         });
         
-        console.log(user);
+         await user.save();
        }
        catch(err){
         console.log(err.message);
-       }*/
+       }
       res.json({status:'OK'});
 });
 
