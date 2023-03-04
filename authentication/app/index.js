@@ -1,20 +1,14 @@
 const express = require('express')
-const passport = require('passport')
-const session = require('express-session')
 const ejs = require("ejs");
 const app = express()
 const {connectToDatabase, User} = require('./database')
 
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
-const mongoose = require('mongoose');
-
 app.set("view engine","ejs")
 
 connectToDatabase()
-const db = mongoose.connection;
 
-console.log(db.collections)
 
 app.get('/',(req,res)=>{
   res.render('index')
