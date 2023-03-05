@@ -1,11 +1,10 @@
 const express = require('express')
-const ejs = require("ejs");
 const app = express()
 const {connectToDatabase, User} = require('./database')
 
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
-app.set("view engine","ejs")
+app.set("view engine", "ejs")
 
 connectToDatabase()
 

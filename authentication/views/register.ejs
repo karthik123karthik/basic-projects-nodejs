@@ -55,9 +55,33 @@
         color: white;
         height: 50vh;
         width: 50vw;
-        margin: 2px auto;
+        margin:50px auto;
         text-align: center;
-        padding: 0.25em;
+        padding: 2em;
+      }
+
+      .input-form{
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        width:100%;
+        justify-content: center;
+        align-items: center;
+        gap:25px;
+      }
+
+      .input-field{
+        width:80%;
+        height:40px;
+        outline: none;
+        padding:10px;
+      }
+
+      .btn{
+          background-color: black;
+          color: white;
+          font-size: 1.25em;
+          font-weight: bolder;
       }
     </style>
   </head>
@@ -71,19 +95,20 @@
       </ul>
     </nav>
     <div class="poster">
-      <form method="post">
-        <input type="text" placeholder="Enter your name" name="username" />
-        <input
+      <form class="input-form" method="post">
+        <h2>REGISTRATION FORM</h2>
+        <input class="input-field" type="text" placeholder="Enter your name" name="username" autocomplete="off" />
+        <input class="input-field"
           type="password"
           placeholder="Enter your password"
-          name="password"
+          name="password"autocomplete="off"
         />
-        <input
+        <input  class="input-field"
           type="password"
           placeholder="confirm password password"
-          name="con-password"
+          name="con-password"autocomplete="off"
         />
-        <button type="submit">submit</button>
+        <button  class="input-field btn" type="submit">submit</button>
       </form>
     </div>
   </body>
