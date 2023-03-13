@@ -14,12 +14,13 @@
   flex-direction: row;
   height: 12%;
   width: 100%;
-  position: absolute;
+  position: fixed;
   top: 0;
   justify-content: center;
   align-items: center;
   padding: 1em;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  z-index: 10;
 }
 .profile {
   flex: 0.5;
@@ -59,6 +60,9 @@
   justify-content: center;
   align-items: center;
   color:#54656F;
+  position:fixed;
+  bottom: 0;
+  z-index: 10;
 }
 
 .emoji-div{
@@ -88,3 +92,45 @@
 .mic-div{
   flex:0.3;
 }
+
+.message{
+  min-height: 30px;
+  min-width: 100px;
+  display: flex;
+  flex-direction: column;
+  background-color: #FFFFFF;
+  border-radius: 0.5em;
+  padding-left: 0.5em;
+  box-shadow: 0px 0px 6px #B2B2B2;
+  height: fit-content;
+  max-width: 400px;
+  word-wrap: break-word;
+}
+
+.messager{
+  font-family: 'Segoe UI',"Helvetica Neue", Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 22px;
+  font-size: 13px;
+  color:#53bdeb;
+  font-weight: 500;
+}
+
+.text-message{
+  font-family: 'Segoe UI',"Helvetica Neue", Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 19px;
+  font-size: 14px;
+  font-weight: 400;
+  color:#111b21;
+}
+
+.message-box{
+   display:flex;
+   flex-direction: column;
+   gap: 20px;
+   padding:3em;
+   min-width: 100%;
+   min-height: 100%;
+   top:10%;
+   padding-bottom:100px ;
+}
+
