@@ -14,16 +14,22 @@ app.get('/',(req, res)=>{
 })
 
 io.on('connection',(socket)=>{
-    console.log("new User connected")
+    io.emit("new user", socket.id)
     socket.on('disconnect',()=>{
-        console.log("User disconnected")
+        io.emit("disconnected", socket.id);
     })
 
     socket.on('chat message', (msg)=>{
         io.emit('chat message',msg)
     })
+    
+   
 
 })
+
+
+
+
 
 
 server.listen(3000,()=>{

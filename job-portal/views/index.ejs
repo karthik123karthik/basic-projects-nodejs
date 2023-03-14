@@ -98,6 +98,22 @@
         }
     })
 
+    socket.on("disconnected",(id)=>{
+        let div = document.createElement('div');
+        div.innerHTML= `<h4>${id} disconnected.....</h4>`;
+        div.className = "message";
+        messagebox.appendChild(div);
+        window.scrollTo(0, document.body.scrollHeight);
+    })
+
+    socket.on("new user",(id)=>{
+        let div = document.createElement('div');
+        div.innerHTML= `<h4>${id} connected.....</h4>`;
+        div.className = "message";
+        messagebox.appendChild(div);
+        window.scrollTo(0, document.body.scrollHeight);
+    })
+
     socket.on('chat message',(msg)=>{
         let div = document.createElement('div');
         div.innerHTML= `<h4 class="messager">~karthik</h4><p>${msg}</p>`;
