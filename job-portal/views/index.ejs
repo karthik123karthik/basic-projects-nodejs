@@ -36,10 +36,6 @@
       </div>
     </div>
     <div style="position:absolute; overflow: scroll; " class="message-box">
-      <div class="message">
-        <h4 class="messager">~karthik</h4>
-        <p class="text-message">hello</p>
-      </div>
     </div>
     <form class="bottom-bar">
       <div class="emoji-div">
@@ -94,22 +90,27 @@
         e.preventDefault()
         if(input.value){
             socket.emit('chat message',input.value);
-            input.value = ''
+            let div = document.createElement('div');
+            div.innerHTML= `<h4 class="messager">~karthik</h4><p>${input.value}</p>`;
+            div.className = "my-message";
+            messagebox.appendChild(div);
+            window.scrollTo(0, document.body.scrollHeight);
+            input.value = '';
         }
     })
 
     socket.on("disconnected",(id)=>{
         let div = document.createElement('div');
-        div.innerHTML= `<h4>${id} disconnected.....</h4>`;
-        div.className = "message";
+        div.innerHTML= `<p>${id} left</p>`;
+        div.className = "notification-message";
         messagebox.appendChild(div);
         window.scrollTo(0, document.body.scrollHeight);
     })
 
     socket.on("new user",(id)=>{
         let div = document.createElement('div');
-        div.innerHTML= `<h4>${id} connected.....</h4>`;
-        div.className = "message";
+        div.innerHTML= `<p>${id} joined</p>`;
+        div.className = "notification-message";
         messagebox.appendChild(div);
         window.scrollTo(0, document.body.scrollHeight);
     })
