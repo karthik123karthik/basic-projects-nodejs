@@ -23,46 +23,22 @@ const connectttodatabase = async () => {
   }
 };
 connectttodatabase();
-
-
-
-
 /////////////////////////////////////////
 
 
 
 
-
-
-
-
-
-
-
-
-
-
+// serving static filezs
 app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public"));
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-app.get("/", (req, res) => {
+app.get("/", (_, res) => {
   res.render("index");
 });
 
+/////// socket.io connection
 io.on("connection", (socket) => {
   io.emit("new user", socket.id);
   socket.on("disconnect", () => {
@@ -73,6 +49,7 @@ io.on("connection", (socket) => {
     socket.broadcast.emit("chat message", msg);
   });
 });
+///////////////////////////////////////////////////////
 
 server.listen(3000, () => {
   console.log("listening on port 3000");
