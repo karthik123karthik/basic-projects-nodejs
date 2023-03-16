@@ -6,7 +6,7 @@ const server = http.createServer(app);
 const { Server } = require("socket.io");
 const io = new Server(server);
 const mongoose = require("mongoose");
-const User = require('./Model/index')
+const {User,Conversation} = require('./Model/index')
 
 
 
@@ -15,9 +15,6 @@ const connectttodatabase = async () => {
   try {
     const db = await mongoose.connect("mongodb://0.0.0.0:27017/chat-app");
     console.log("connected");
-    let newuser = new User({name:"karthik gk",email:"kar2214@gmail.com",password:"karthik123"});
-    await newuser.save()
-    console.log("user saved")
   } catch (err) {
     console.log(err);
   }
@@ -39,15 +36,27 @@ app.get("/", (_, res) => {
 });
 
 /////// socket.io connection
-io.on("connection", (socket) => {
+io.on("connection", async(socket) => {
+
+  try{
+  let newmessage = new Conversation({type:"notification", user:`${socket.id}`, message:`${socket.id} joined`});
+   await newmessage.save();
   io.emit("new user", socket.id);
-  socket.on("disconnect", () => {
+  socket.on("disconnect", async() => {
+    let newmessage = new Conversation({type:"notification", user:`${socket.id}`, message:`${socket.id} left`});
+    await newmessage.save();
     io.emit("disconnected", socket.id);
   });
 
-  socket.on("chat message", (msg) => {
+  socket.on("chat message", async(msg) => {
+    let newmessage = new Conversation({type:"message", user:`${socket.id}`, message:msg});
+    await newmessage.save();
     socket.broadcast.emit("chat message", msg);
   });
+}
+catch(err){
+  console.log(err);
+}
 });
 ///////////////////////////////////////////////////////
 
