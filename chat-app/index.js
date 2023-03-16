@@ -31,8 +31,9 @@ app.use(express.static(__dirname + "/public"));
 
 
 
-app.get("/", (_, res) => {
-  res.render("index");
+app.get("/", async (_, res) => {
+  const arr = await Conversation.find({});
+  res.render("index",{conversations: arr});
 });
 
 /////// socket.io connection
