@@ -38,7 +38,6 @@ app.get("/", async (_, res) => {
 
 /////// socket.io connection
 io.on("connection", async(socket) => {
-
   try{
   let newmessage = new Conversation({type:"notification", user:`${socket.id}`, message:`${socket.id} joined`});
    await newmessage.save();

@@ -90,6 +90,9 @@
   <script src="/socket.io/socket.io.js"></script>
   <script>
     var socket = io();
+    socket.on('connect',()=>{
+      console.log(socket.id);
+    })
     const form = document.getElementsByClassName("bottom-bar")[0];
     const input = document.getElementById("input-bar");
     const messagebox = document.getElementsByClassName("message-box")[0];
