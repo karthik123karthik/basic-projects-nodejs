@@ -36,6 +36,13 @@
       </div>
     </div>
     <div style="position:absolute; overflow: scroll; " class="message-box">
+      <%for(var i=0;i<conversations.length;i++) { %>
+        <%if (conversations[i].type==="message"){%>
+          <div class="message"><h4 class="messager">~karthik</h4><p><%=conversations[i].message%></p></div>
+          <%}else {%>
+            <div class="notification-message"><p><%=conversations[i].message%></p></div>
+        <%}%>
+        <%}%>
     </div>
     <form class="bottom-bar">
       <div class="emoji-div">
