@@ -21,8 +21,8 @@ app.use(
     cookie: { maxAge: oneDay },
   })
 );
-
 app.use(cookieparser());
+
 ///////////////////////////////////
 
 // database related ---------
@@ -43,22 +43,20 @@ app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public"));
 app.use(bodyparser.urlencoded({ extended: false }));
 
+let session;
 app.get("/", (req, res) => {
-  let session = req.session;
+  session = req.session;
   if (session.userid) {
     res.redirect("/chat");
   } else {
     res.render("login");
   }
 });
-let user;
 
 app.post("/chat", (req, res) => {
-  user = req.body.username;
   password = req.body.password;
-  let session = req.session;
-  session.userid = user;
-  console.log(session)
+  session = req.session;
+  session.userid = req.body.username;
   res.redirect("/chat");
 });
 
@@ -72,25 +70,25 @@ io.on("connection", async (socket) => {
   try {
     let newmessage = new Conversation({
       type: "notification",
-      user: `${user}`,
-      message: `${user} joined`,
+      user: `${session.userid}`,
+      message: `${session.userid} joined`,
     });
     await newmessage.save();
-    io.emit("new user", user);
+    io.emit("new user", session.userid);
     socket.on("disconnect", async () => {
       let newmessage = new Conversation({
         type: "notification",
-        user: `${user}`,
-        message: `${user} left`,
+        user: `${session.userid}`,
+        message: `${session.userid} left`,
       });
       await newmessage.save();
-      io.emit("disconnected", user);
+      io.emit("disconnected",session.userid);
     });
 
     socket.on("chat message", async (msg) => {
       let newmessage = new Conversation({
         type: "message",
-        user: `${socket.id}`,
+        user: `${session.userid}`,
         message: msg,
       });
       await newmessage.save();

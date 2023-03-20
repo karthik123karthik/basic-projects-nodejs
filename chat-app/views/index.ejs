@@ -91,7 +91,7 @@
   <script>
     var socket = io();
     socket.on('connect',()=>{
-      console.log(socket.id);
+      console.log("connected")
     })
     const form = document.getElementsByClassName("bottom-bar")[0];
     const input = document.getElementById("input-bar");
@@ -108,7 +108,6 @@
             input.value = '';
         }
     })
-
     socket.on("disconnected",(id)=>{
         let div = document.createElement('div');
         div.innerHTML= `<p>${id} left</p>`;
