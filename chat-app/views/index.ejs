@@ -28,8 +28,9 @@
         />
       </div>
       <div class="title">
-        <p>Hub Mangement 2022</p>
+        <p>Programmers Group</p>
       </div>
+      <button class="private-messaging"><a href="/privates" style="text-decoration: none; color:white">privat chats</a></button>
       <div class="search">
         <i class="fas fa-search"></i>
         <i class="fas fa-ellipsis-v"></i>
@@ -89,13 +90,21 @@
   </body>
   <script src="/socket.io/socket.io.js"></script>
   <script>
-    var socket = io();
+    var socket = io.connect("http://localhost:3000",{
+      query:{
+        username:"username"
+      }
+    });
+    //////////////////////
     socket.on('connect',()=>{
       console.log("connected")
     })
+    ////////////////////
+
     const form = document.getElementsByClassName("bottom-bar")[0];
     const input = document.getElementById("input-bar");
     const messagebox = document.getElementsByClassName("message-box")[0];
+
     form.addEventListener('submit',(e)=>{
         e.preventDefault()
         if(input.value){
@@ -108,6 +117,7 @@
             input.value = '';
         }
     })
+    ////////////////////
     socket.on("disconnected",(id)=>{
         let div = document.createElement('div');
         div.innerHTML= `<p>${id} left</p>`;
@@ -115,6 +125,7 @@
         messagebox.appendChild(div);
         window.scrollTo(0, document.body.scrollHeight);
     })
+    ///////////////////////
 
     socket.on("new user",(id)=>{
         let div = document.createElement('div');
@@ -123,7 +134,7 @@
         messagebox.appendChild(div);
         window.scrollTo(0, document.body.scrollHeight);
     })
-
+  ////////////////////////////////
     socket.on('chat message',(msg)=>{
         let div = document.createElement('div');
         div.innerHTML= `<h4 class="messager">~karthik</h4><p>${msg}</p>`;
@@ -131,5 +142,6 @@
         messagebox.appendChild(div);
         window.scrollTo(0, document.body.scrollHeight);
     })
+    ///////////////////////////
   </script>
 </html>

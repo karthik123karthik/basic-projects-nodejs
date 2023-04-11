@@ -35,30 +35,30 @@ form input[type="submit"] {
 }
 
 .signup{
-    background: rgb(247, 100, 100);
-    color: rgb(15, 14, 14);
+    background: rgb(142, 255, 142);
+    color: rgb(22, 21, 21);
     border-radius: 4px;
     margin-top: 2rem;
     padding: 0.4rem;
     text-decoration: none;
     text-align: center;
 }
+
+
+
 </style>
 <body>
-    <form action="/" method="post">
-        <h2>Login</h2>
+    <form  method="post">
+        <h2>Signup</h2>
         <div class="input-field">
             <input type="text" name="username" id="username" placeholder="Enter Username" class="name" autocomplete="off">
         </div>
         <div class="input-field">
             <input type="password" name="password" id="password" placeholder="Enter Password">
         </div>
-        <input type="submit" value="LogIn">
-        <p><%=error %></p>
-        <a href="/signup" class="signup" >signup</a>
+        <input type="submit" value="SignUp">
+        <p><%=error%></p>
+        <a href="/" class="signup" >login</a>
     </form>
 </body>
-<script>
-
-</script>
 </html>

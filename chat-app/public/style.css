@@ -172,3 +172,12 @@
   width:300px;
   left:60vw;
 }
+
+.private-messaging{
+  outline: none;
+  border: none;
+  padding:0.5em;
+  background-color: green;
+  border-radius: 0.35rem;
+  color: white;
+}

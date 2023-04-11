@@ -1,6 +1,4 @@
 const express = require("express");
-const sessions = require("express-session");
-const cookieparser = require("cookie-parser");
 const app = express();
 const ejs = require("ejs");
 const http = require("http");
@@ -11,30 +9,17 @@ const mongoose = require("mongoose");
 const { User, Conversation } = require("./Model/index");
 const bodyparser = require("body-parser");
 
-///// creating an express session /////////
-let oneDay = 1000 * 60 * 60 * 24;
-app.use(
-  sessions({
-    secret: "thisismysecretkey",
-    saveUninitialized: true,
-    resave: false,
-    cookie: { maxAge: oneDay },
-  })
-);
-app.use(cookieparser());
-
-///////////////////////////////////
 
 // database related ---------
 const connectttodatabase = async () => {
   try {
     const db = await mongoose.connect("mongodb://0.0.0.0:27017/chat-app");
+    await Conversation.deleteMany({})
     console.log("connected");
-    await Conversation.deleteMany({});
   } catch (err) {
     console.log(err);
   }
-};
+}; -
 connectttodatabase();
 /////////////////////////////////////////
 
@@ -42,53 +27,73 @@ connectttodatabase();
 app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public"));
 app.use(bodyparser.urlencoded({ extended: false }));
+/////////////////////////////////////////////////
 
-let session;
 app.get("/", (req, res) => {
-  session = req.session;
-  if (session.userid) {
-    res.redirect("/chat");
-  } else {
-    res.render("login");
+  res.render("login",{error:"if you dont have username please signup...."});
+});
+
+app.get("/signup", (req, res) => {
+  res.render("signup",{error:"if you already have username login....."});
+});
+
+app.post("/signup", async(req, res)=>{
+  try{
+     const {username, password} = req.body;
+     let user = new User({name:username,password:password});
+     await user.save();
+     res.redirect("/chat")
+  }catch(err){
+      res.render("signup",{error:"username already exists"})
+  }
+})
+
+app.post("/", async(req, res) => {
+  const {username, password} = req.body;
+  let user = await User.find({name:username});
+  if(user.length>0){
+    if(user[0].password === password) {
+      res.cookie = {username:username};
+      res.redirect("/chat");
+    } 
+    else res.render("login",{error:"incorrect password"});
+  }
+  else {
+    res.render("login",{error:"User not found"});
   }
 });
 
-app.post("/chat", (req, res) => {
-  password = req.body.password;
-  session = req.session;
-  session.userid = req.body.username;
-  res.redirect("/chat");
+app.get("/chat", async (req, res) => {
+  const arr = await Conversation.find({});
+  res.render("index", { conversations: arr});
 });
 
-app.get("/chat", async (_, res) => {
-  const arr = await Conversation.find({});
-  res.render("index", { conversations: arr });
-});
 
 /////// socket.io connection
 io.on("connection", async (socket) => {
   try {
+    let userid = socket.id
     let newmessage = new Conversation({
       type: "notification",
-      user: `${session.userid}`,
-      message: `${session.userid} joined`,
+      user: `${userid}`,
+      message: `${userid} joined`,
     });
     await newmessage.save();
-    io.emit("new user", session.userid);
+    io.emit("new user", userid);
     socket.on("disconnect", async () => {
       let newmessage = new Conversation({
         type: "notification",
-        user: `${session.userid}`,
-        message: `${session.userid} left`,
+        user: `${userid}`,
+        message: `${userid} left`,
       });
       await newmessage.save();
-      io.emit("disconnected",session.userid);
+      io.emit("disconnected", userid);
     });
 
     socket.on("chat message", async (msg) => {
       let newmessage = new Conversation({
         type: "message",
-        user: `${session.userid}`,
+        user: `${userid}`,
         message: msg,
       });
       await newmessage.save();
@@ -98,7 +103,6 @@ io.on("connection", async (socket) => {
     console.log(err);
   }
 });
-
 ///////////////////////////////////////////////////////
 
 server.listen(3000, () => {
