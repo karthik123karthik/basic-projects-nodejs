@@ -1,6 +1,7 @@
 
 let path = location.pathname.split('/');
-let username = path[1];
+let username = path[1].split("%20").join(" ");
+console.log(username)
 
 var socket = io.connect("http://localhost:3000",{
   query:{
