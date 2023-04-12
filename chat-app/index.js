@@ -42,7 +42,7 @@ app.post("/signup", async(req, res)=>{
      const {username, password} = req.body;
      let user = new User({name:username,password:password});
      await user.save();
-     res.redirect("/chat")
+     res.redirect(`/${username}/chat`)
   }catch(err){
       res.render("signup",{error:"username already exists"})
   }
@@ -54,7 +54,7 @@ app.post("/", async(req, res) => {
   if(user.length>0){
     if(user[0].password === password) {
       res.cookie = {username:username};
-      res.redirect("/chat");
+      res.redirect(`/${username}/chat`);
     } 
     else res.render("login",{error:"incorrect password"});
   }
@@ -63,7 +63,7 @@ app.post("/", async(req, res) => {
   }
 });
 
-app.get("/chat", async (req, res) => {
+app.get("/:username/chat", async (req, res) => {
   const arr = await Conversation.find({});
   res.render("index", { conversations: arr});
 });
