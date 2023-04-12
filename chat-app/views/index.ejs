@@ -8,13 +8,7 @@
       crossorigin="anonymous"
     ></script>
     <link rel="stylesheet" href="/style.css" />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
-      integrity="sha512-rsU1lG94JHDg/Cz/JM+2CbZcPn39oxNp6gNcm+WMd3q+nSzDldn+cJcNO/YzjlV7/hqI3+ckV7wpg29Jb+VQ5w=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    />
+    <script src="https://cdn.jsdelivr.net/npm/qs@6.10.1/dist/qs.min.js"></script>
   </head>
   
   <body class="chat-area">
@@ -89,59 +83,5 @@
     </form>
   </body>
   <script src="/socket.io/socket.io.js"></script>
-  <script>
-    var socket = io.connect("http://localhost:3000",{
-      query:{
-        username:"username"
-      }
-    });
-    //////////////////////
-    socket.on('connect',()=>{
-      console.log("connected")
-    })
-    ////////////////////
-
-    const form = document.getElementsByClassName("bottom-bar")[0];
-    const input = document.getElementById("input-bar");
-    const messagebox = document.getElementsByClassName("message-box")[0];
-
-    form.addEventListener('submit',(e)=>{
-        e.preventDefault()
-        if(input.value){
-            socket.emit('chat message',input.value);
-            let div = document.createElement('div');
-            div.innerHTML= `<h4 class="messager">~karthik</h4><p>${input.value}</p>`;
-            div.className = "my-message";
-            messagebox.appendChild(div);
-            window.scrollTo(0, document.body.scrollHeight);
-            input.value = '';
-        }
-    })
-    ////////////////////
-    socket.on("disconnected",(id)=>{
-        let div = document.createElement('div');
-        div.innerHTML= `<p>${id} left</p>`;
-        div.className = "notification-message";
-        messagebox.appendChild(div);
-        window.scrollTo(0, document.body.scrollHeight);
-    })
-    ///////////////////////
-
-    socket.on("new user",(id)=>{
-        let div = document.createElement('div');
-        div.innerHTML= `<p>${id} joined</p>`;
-        div.className = "notification-message";
-        messagebox.appendChild(div);
-        window.scrollTo(0, document.body.scrollHeight);
-    })
-  ////////////////////////////////
-    socket.on('chat message',(msg)=>{
-        let div = document.createElement('div');
-        div.innerHTML= `<h4 class="messager">~karthik</h4><p>${msg}</p>`;
-        div.className = "message";
-        messagebox.appendChild(div);
-        window.scrollTo(0, document.body.scrollHeight);
-    })
-    ///////////////////////////
-  </script>
+  <script src="/js/index.js" ></script>
 </html>

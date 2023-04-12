@@ -72,7 +72,7 @@ app.get("/:username/chat", async (req, res) => {
 /////// socket.io connection
 io.on("connection", async (socket) => {
   try {
-    let userid = socket.id
+    let userid = socket.handshake.query.username;
     let newmessage = new Conversation({
       type: "notification",
       user: `${userid}`,
