@@ -14,7 +14,7 @@ const bodyparser = require("body-parser");
 const connectttodatabase = async () => {
   try {
     const db = await mongoose.connect("mongodb://0.0.0.0:27017/chat-app");
-    await Conversation.deleteMany({})
+    //await Conversation.deleteMany({});
     console.log("connected");
   } catch (err) {
     console.log(err);
@@ -65,7 +65,8 @@ app.post("/", async(req, res) => {
 
 app.get("/:username/chat", async (req, res) => {
   const arr = await Conversation.find({});
-  res.render("index", { conversations: arr});
+  let {username} = req.params;
+  res.render("index", { conversations: arr, user:username});
 });
 
 
@@ -97,7 +98,7 @@ io.on("connection", async (socket) => {
         message: msg,
       });
       await newmessage.save();
-      socket.broadcast.emit("chat message", msg);
+      socket.broadcast.emit("chat message", {sender:userid, msg:msg});
     });
   } catch (err) {
     console.log(err);
